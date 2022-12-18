@@ -1,7 +1,8 @@
 // ==UserScript==
 // @name         Yiban Resolve
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @run-at       document-end
+// @version      0.2
 // @description  Bypass!
 // @author       konohaScarlet_
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=microsoft.com
@@ -46,13 +47,9 @@
 
     const data = (await request(`https://exambackend.yooc.me/api/exam/paper/get?examuserId=${examuserId}`)).data
 
-    let answers = [];
+    const answers = data.flatMap(sec => sec.subjects).map(subj => subj.answer = decode[subj.answer]);
 
-    for (const sec of data)
-        for (const subj of sec.subjects)
-            answers.push(subj.answer = decode[subj.answer]);
-
-    const m = document.body.firstChild.firstChild.firstChild.nextSibling.firstChild.firstChild.lastChild;
+    const m = document.getElementsByClassName("jsx-3643416060").item(0).parentElement;
 
     let ansTag = document.createElement("div");
     ansTag.setAttribute("id", "answer");
