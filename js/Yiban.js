@@ -14,26 +14,27 @@
     'use strict';
 
     const decode = {
-        "=4WatRWYAN2bvlXXiMjIsISMiwiIwIyW": ["A", "B", "D"],
-        "=4WatRWYAN2bvlXXiMjIsIiMiwiIwIyW": ["A", "C", "D"],
-        "=4WatRWYAN2bvlXXiIjIsISMiwiIwIyW": ["A", "B", "C"],
-        "=4WatRWYAN2bvlXXiQjIsIiMiwiIwIyW": ["A", "C", "E"],
-        "=4WatRWYAN2bvlXXiMjIsIiMiwiIxIyW": ["B", "C", "D"],
-        "=4WatRWYAN2bvlXXiQjIsISMiwiIwIyW": ["A", "B", "E"],
-        "==gbp1GZhB0Yv9WedJSMiwiIwIyW": ["A", "B"],
-        "==gbp1GZhB0Yv9WedJiMiwiIwIyW": ["A", "C"],
-        "==gbp1GZhB0Yv9WedJiMiwiIxIyW": ["B", "C"],
-        "==gbp1GZhB0Yv9WedJyMiwiIxIyW": ["B", "D"],
-        "==gbp1GZhB0Yv9WedJyMiwiIwIyW": ["A", "D"],
-        "ulWbkFGQj92b51lIzICLiIjIsISMiwiIwIyW": ["A", "B", "C", "D"],
-        "ulWbkFGQj92b51lI0ICLiIjIsISMiwiIwIyW": ["A", "B", "C", "E"],
-        "ulWbkFGQj92b51lI0ICLiMjIsIiMiwiIwIyW": ["A", "C", "D", "E"],
-        "==gbp1GZhB0Yv9WedJCNiwiIzICLiIjIsISMiwiIwIyW": ["A", "B", "C", "D", "E"],
         "ulWbkFGQj92b51lIwIyW": "A",
         "ulWbkFGQj92b51lIxIyW": "B",
         "ulWbkFGQj92b51lIyIyW": "C",
         "ulWbkFGQj92b51lIzIyW": "D",
-        "ulWbkFGQj92b51lI0IyW": "E"
+        "ulWbkFGQj92b51lI0IyW": "E",
+        "==gbp1GZhB0Yv9WedJSMiwiIwIyW": ["A", "B"],
+        "==gbp1GZhB0Yv9WedJiMiwiIwIyW": ["A", "C"],
+        "==gbp1GZhB0Yv9WedJyMiwiIwIyW": ["A", "D"],
+        "==gbp1GZhB0Yv9WedJiMiwiIxIyW": ["B", "C"],
+        "==gbp1GZhB0Yv9WedJyMiwiIxIyW": ["B", "D"],
+        "==gbp1GZhB0Yv9WedJyMiwiIyIyW": ["C", "D"],
+        "=4WatRWYAN2bvlXXiIjIsISMiwiIwIyW": ["A", "B", "C"],
+        "=4WatRWYAN2bvlXXiMjIsISMiwiIwIyW": ["A", "B", "D"],
+        "=4WatRWYAN2bvlXXiQjIsISMiwiIwIyW": ["A", "B", "E"],
+        "=4WatRWYAN2bvlXXiMjIsIiMiwiIwIyW": ["A", "C", "D"],
+        "=4WatRWYAN2bvlXXiQjIsIiMiwiIwIyW": ["A", "C", "E"],
+        "=4WatRWYAN2bvlXXiMjIsIiMiwiIxIyW": ["B", "C", "D"],
+        "ulWbkFGQj92b51lIzICLiIjIsISMiwiIwIyW": ["A", "B", "C", "D"],
+        "ulWbkFGQj92b51lI0ICLiIjIsISMiwiIwIyW": ["A", "B", "C", "E"],
+        "ulWbkFGQj92b51lI0ICLiMjIsIiMiwiIwIyW": ["A", "C", "D", "E"],
+        "==gbp1GZhB0Yv9WedJCNiwiIzICLiIjIsISMiwiIwIyW": ["A", "B", "C", "D", "E"]
     };
 
     async function request(url, options) {
