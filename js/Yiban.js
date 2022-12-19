@@ -64,6 +64,6 @@
     questionNumTag.addEventListener("DOMSubtreeModified", e => {
         const newValue = e.target.data; // 改变后（现在）的题号
         const currentAnswer = answers[newValue - 1];
-        ansTag.innerHTML = `第${newValue}题答案：` + (typeof currentAnswer == "string" ? currentAnswer : currentAnswer.join("，"));
+        ansTag.innerHTML = `第${newValue}题答案：` + (typeof currentAnswer == "string" ? currentAnswer : (currentAnswer?.join("，") ?? "选项不在库中，请反馈"));
     });
 })();
