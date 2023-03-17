@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Yiban Resolve
-// @namespace    http://tampermonkey.net/
+// @namespace    https://github.com/MukjepScarlet/tampermonkey-scripts/blob/main/
 // @run-at       document-end
 // @version      0.2
 // @description  Bypass!
