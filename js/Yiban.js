@@ -5,9 +5,10 @@
 // @version      0.2
 // @description  Bypass!
 // @author       konohaScarlet_
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=microsoft.com
+// @icon         https://www.yiban.cn/favicon.ico
 // @grant        none
 // @match        *://exam.yooc.me/group/*/exam/*
+// @original-license GPL License
 // ==/UserScript==
 
 (async function() {
