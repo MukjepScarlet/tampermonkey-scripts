@@ -41,6 +41,7 @@ const decode = {
     "lKe/G3bBu2t/JiXIa9TSlA==": ["B", "C", "D"],
     "NzXaQ8Zvzb1spWYZiaKMKQ==": ["A", "B"],
     "ojbn01F+UgOOSERjnNnBwQ==": ["A", "C"],
+    "0Pu0+A3LVJmTeoZSdUeYzg==": ["A", "D"],
     "TCujI7LvF9+S7D5yeRyzWg==": ["B", "C"],
     "XR17648FKif4ktUCZF9h0w==": ["B", "D"],
     "wam44wmBSSNN4dPi8eZl4w==": ["C", "D"],
