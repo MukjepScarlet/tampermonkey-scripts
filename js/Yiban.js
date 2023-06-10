@@ -1,63 +1,22 @@
 // ==UserScript==
 // @name         Yiban Resolve
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      1.0
 // @description  Bypass!
 // @author       konohaScarlet_
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=microsoft.com
 // @grant        none
-// @match        *://exam.yooc.me/group/*/exam/*
+// @match        *://exam.yooc.me/group/*/exam/*/take
+// @require      https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9/crypto-js.min.js
 // ==/UserScript==
 
-const decode = {
-    "=4WatRWYAN2bvlXXiMjIsISMiwiIwIyW": ["A", "B", "D"],
-    "=4WatRWYAN2bvlXXiMjIsIiMiwiIwIyW": ["A", "C", "D"],
-    "=4WatRWYAN2bvlXXiIjIsISMiwiIwIyW": ["A", "B", "C"],
-    "=4WatRWYAN2bvlXXiQjIsIiMiwiIwIyW": ["A", "C", "E"],
-    "=4WatRWYAN2bvlXXiMjIsIiMiwiIxIyW": ["B", "C", "D"],
-    "=4WatRWYAN2bvlXXiQjIsISMiwiIwIyW": ["A", "B", "E"],
-    "==gbp1GZhB0Yv9WedJSMiwiIwIyW": ["A", "B"],
-    "==gbp1GZhB0Yv9WedJiMiwiIwIyW": ["A", "C"],
-    "==gbp1GZhB0Yv9WedJiMiwiIxIyW": ["B", "C"],
-    "==gbp1GZhB0Yv9WedJyMiwiIxIyW": ["B", "D"],
-    "ulWbkFGQj92b51lIzICLiIjIsISMiwiIwIyW": ["A", "B", "C", "D"],
-    "ulWbkFGQj92b51lI0ICLiIjIsISMiwiIwIyW": ["A", "B", "C", "E"],
-    "ulWbkFGQj92b51lI0ICLiMjIsIiMiwiIwIyW": ["A", "C", "D", "E"],
-    "==gbp1GZhB0Yv9WedJCNiwiIzICLiIjIsISMiwiIwIyW": ["A", "B", "C", "D", "E"],
-    "S+xUEw7naejDmkN3dm8ESw==": "A",
-    "MXz/ccgKyTDm4S07GwdZSQ==": "B",
-    "LVXqNuIbrI4w1S9XcwBWxQ==": "C",
-    "B0jjbql+rpI89IcabXBtIw==": "D",
-    "lbMHM29yZx4xQ3i31EBQSw==": "E",
-
-    "ekB9RCpjA7nx6HLFU0S4fg==": "A",
-    "UwSNPvAWlrIKUaoSUwriYg==": "B",
-    "7x3PE4EgG6NoxX3LCMK4wA==": "C",
-    "vaY5L2z2gxedI4LkQv2w1g==": "D",
-    "vavVp23XuSjK8xbuKyfl1TchwQ71j44zrebljBy\/z1I=": ["A", "B", "C", "D", "E"],
-    "vavVp23XuSjK8xbuKyfl1Y6mgg6b7yzcgUto9rTBlms=": ["A", "B", "C", "D"],
-    "LE0pFroqYLH0DhSPvhpIbA==": ["A", "B", "C"],
-    "KOKP6em09Uqn5P13lIf8Kg==": ["A", "B", "D"],
-    "lKe/G3bBu2t/JiXIa9TSlA==": ["B", "C", "D"],
-    "NzXaQ8Zvzb1spWYZiaKMKQ==": ["A", "B"],
-    "ojbn01F+UgOOSERjnNnBwQ==": ["A", "C"],
-    "0Pu0+A3LVJmTeoZSdUeYzg==": ["A", "D"],
-    "TCujI7LvF9+S7D5yeRyzWg==": ["B", "C"],
-    "XR17648FKif4ktUCZF9h0w==": ["B", "D"],
-    "wam44wmBSSNN4dPi8eZl4w==": ["C", "D"],
-
-    "pUsI4QDZBgi6a+MSlczzzC9g0o1iViM8WF5iFZwdANQ=": ["A", "B", "C", "D"],
-    "L/iKJ/gMhE3fBYXxVEn3iA==": ["A", "C", "D"],
-    "X0tFOdyxRmxLwcF+4Nu+jQ==": ["A", "B", "C"],
-    "I6zV3xcySnWk/kqy868riw==": ["A", "B"],
-    "vsAyq1dI1vDG1AZ+TOVZVQ==": ["A", "C"],
-    "RyaO9eiwz9Yd9fwVJHxsdQ==": ["A", "D"],
-};
-
-async function request(url, options) {
+async function request(url, options, content = "json") {
     const response = await fetch(url, options);
-    const resJson = await response.json();
-    return resJson;
+    return await response[content]();
+}
+
+function getCookie(key) {
+    return document.cookie.split(';').find(cookie => cookie.includes(key)).split('=')[1];
 }
 
 async function main() {
@@ -66,13 +25,30 @@ async function main() {
     const examId = window.location.href.match(/exam\/([0-9]+)?/)[1];
     const userId = document.cookie.match(/user_id=([0-9]+)?/)[1];
 
-    const token = document.cookie.split(';').find(cookie => cookie.includes('user_token')).split('=')[1];
-    const yiban_id = document.cookie.split(';').find(cookie => cookie.includes('yiban_id')).split('=')[1];
-    const examuserId = (await request(`https://exambackend.yooc.me/api/exam/setting/get?examId=${examId}&userId=${userId}&token=${token}&yibanId=${yiban_id}`)).data.examuserId;
-    const datas = (await request(`https://exambackend.yooc.me/api/exam/paper/get?examuserId=${examuserId}&token=${token}&yibanId=${yiban_id}`))
+    const token = getCookie('user_token');
+    const yibanId = getCookie('yiban_id');
+    const examuserId = (await request(`https://exambackend.yooc.me/api/exam/setting/get?examId=${examId}&userId=${userId}&token=${token}&yibanId=${yibanId}`)).data.examuserId;
+    const datas = (await request(`https://exambackend.yooc.me/api/exam/paper/get?examuserId=${examuserId}&token=${token}&yibanId=${yibanId}`))
+
+    const nx = (e, r = false) => {
+        const a = "yooc@admin";
+
+        const c = CryptoJS.enc.Utf8.parse(CryptoJS.MD5(a + yibanId).toString().substring(8, 24));
+        const l = CryptoJS.enc.Utf8.parse("42e07d2f7199c35d");
+
+        if (r) e = a + e;
+
+        return CryptoJS.AES[r ? "encrypt" : "decrypt"](
+            e, c, {
+            iv: l,
+            mode: CryptoJS.mode.CBC
+        }).toString(r ? "" : CryptoJS.enc.Utf8);
+    }
+
+    const decode = (encrypted, type, choices = []) => JSON.parse(nx(encrypted, false)).map(x => type == "completion" ? (x.join ? x.join(' | ') : x) : String.fromCharCode(65 + (choices && choices.length ? choices.indexOf(~~x) : ~~x))).join("、");
 
     const subjects = datas.data.map(sec => sec.subjects).reduce((acc, val) => acc.concat(val), []);
-    const answers = subjects.map(subj => decode[subj.answer] ?? "答案不在库中");
+    const answers = subjects.map(subj => decode(subj.answer, subj.type));
 
     const m = document.getElementsByClassName("jsx-3643416060").item(0).parentElement;
     const ansTag = document.createElement("div");
